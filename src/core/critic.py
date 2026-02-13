@@ -13,7 +13,7 @@ import json
 import logging
 from typing import Any
 
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 from src.core.config import settings
@@ -110,10 +110,10 @@ async def run_critic(step_number: int, draft_output: Any) -> CriticResult:
 
     prompt = _build_critic_prompt(step_number, draft_str)
 
-    llm = ChatOpenAI(
+    llm = ChatGoogleGenerativeAI(
         model=settings.llm_model,
         temperature=0.0,  # Critic is fully deterministic
-        api_key=settings.openai_api_key,
+        google_api_key=settings.gemini_api_key,
     )
 
     response = await llm.ainvoke(prompt)

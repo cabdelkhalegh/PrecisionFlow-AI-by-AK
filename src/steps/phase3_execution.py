@@ -12,7 +12,7 @@ import json
 import logging
 from typing import Any
 
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from src.core.config import settings
 from src.core.critic import critic_loop
@@ -298,10 +298,10 @@ Return JSON:
 }}
 Only output valid JSON."""
 
-    llm = ChatOpenAI(
+    llm = ChatGoogleGenerativeAI(
         model=settings.llm_model,
         temperature=settings.llm_temperature,
-        api_key=settings.openai_api_key,
+        google_api_key=settings.gemini_api_key,
     )
     response = await llm.ainvoke(prompt)
     content = response.content if hasattr(response, "content") else str(response)

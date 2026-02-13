@@ -112,19 +112,18 @@ class GoldenDatabase:
         return str(record_id)
 
     async def get_embedding(self, text: str) -> list[float]:
-        """Generate an embedding for arbitrary text via the OpenAI API."""
+        """Generate an embedding for arbitrary text via the Gemini API."""
         async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.post(
-                "https://api.openai.com/v1/embeddings",
-                headers={
-                    "Authorization": f"Bearer {settings.openai_api_key}",
-                    "Content-Type": "application/json",
-                },
-                json={"model": "text-embedding-3-small", "input": text},
+                "https://generativelanguage.googleapis.com/v1beta/models/"
+                "text-embedding-004:embedContent",
+                params={"key": settings.gemini_api_key},
+                headers={"Content-Type": "application/json"},
+                json={"model": "models/text-embedding-004", "content": {"parts": [{"text": text}]}},
             )
             response.raise_for_status()
             data = response.json()
-        return data["data"][0]["embedding"]  # type: ignore[no-any-return]
+        return data["embedding"]["values"]  # type: ignore[no-any-return]
 
     async def search_by_text(self, query: str, top_k: int = 3) -> list[CaseStudy]:
         """Convenience: embed *query* and search in one call."""

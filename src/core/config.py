@@ -9,9 +9,9 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """All runtime settings.  Loaded from ``.env`` or environment variables."""
 
-    # --- LLM ---
-    openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
-    llm_model: str = Field(default="gpt-4o", alias="LLM_MODEL")
+    # --- LLM (Gemini) ---
+    gemini_api_key: str = Field(default="", alias="GEMINI_API_KEY")
+    llm_model: str = Field(default="gemini-2.0-flash", alias="LLM_MODEL")
     llm_temperature: float = Field(default=0.1, alias="LLM_TEMPERATURE")
 
     # --- Supabase ---

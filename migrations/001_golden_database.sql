@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS case_studies (
     pricing_strategy TEXT DEFAULT '',
     legal_structure TEXT DEFAULT '',
     pitch_deck_url TEXT DEFAULT '',
-    embedding   vector(1536),  -- OpenAI text-embedding-3-small dimension
+    embedding   vector(768),   -- Gemini text-embedding-004 dimension
     created_at  TIMESTAMPTZ DEFAULT now()
 );
 
@@ -27,7 +27,7 @@ CREATE INDEX IF NOT EXISTS idx_case_studies_embedding
 
 -- RPC function for vector similarity search
 CREATE OR REPLACE FUNCTION match_case_studies(
-    query_embedding vector(1536),
+    query_embedding vector(768),
     match_count INT DEFAULT 3
 )
 RETURNS TABLE (
